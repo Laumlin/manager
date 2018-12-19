@@ -70,7 +70,7 @@ export default [
     ]
   },
   {
-    title: '',
+    title: '富文本',
     key: '/admin/rich'
   },
   {
