@@ -4,6 +4,7 @@ import App from './App'
 import Login from './pages/Login'
 import Admin from './admin'
 import Buttons from './pages/Ui/Buttons'
+import NotMatch from './pages/NotMatch'
 
 class IRouter extends Component {
   render() {
@@ -15,6 +16,7 @@ class IRouter extends Component {
             <Admin>
               <Switch>
                 <Route path="/admin/ui/buttons" component={Buttons}></Route>
+                <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
           } />
