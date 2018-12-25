@@ -11,6 +11,7 @@ import Messages from './pages/Ui/Messages'
 import Tabs from './pages/Ui/Tabs'
 import Gallery from './pages/Ui/Gallery'
 import Carousel from './pages/Ui/Carousel'
+import FormLogin from './pages/Form/Login'
 import NotMatch from './pages/NotMatch'
 
 
@@ -30,7 +31,8 @@ class IRouter extends Component {
                 <Route path="/admin/ui/messages" component={Messages}></Route>
                 <Route path="/admin/ui/tabs" component={Tabs}></Route>
                 <Route path="/admin/ui/gallery" component={Gallery}></Route>
-                <Route path="/admin/ui/carousel" component={Carousel}></Route>                
+                <Route path="/admin/ui/carousel" component={Carousel}></Route>    
+                <Route path="/admin/form/login" component={FormLogin}></Route>                
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
