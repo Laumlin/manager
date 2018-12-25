@@ -51,7 +51,7 @@ class Gallery extends Component {
           <Col md={6}>{this.imgList[3]}</Col>
         </Row>
         <Modal
-          style={{width: 500, height: 500, overflow: hidden}}
+          style={{width: 500}}
           visible={this.state.visible}
           title='图片'
           onCancel={() => this.setState({ visible: false })}
