@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Card, Col, Row, Modal } from 'antd'
-import { hidden } from 'ansi-colors';
 
 class Gallery extends Component {
   constructor(props) {
