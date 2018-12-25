@@ -9,6 +9,7 @@ import Loading from './pages/Ui/Loading'
 import Notification from './pages/Ui/Notification'
 import Messages from './pages/Ui/Messages'
 import Tabs from './pages/Ui/Tabs'
+import Gallery from './pages/Ui/Gallery'
 import NotMatch from './pages/NotMatch'
 
 
@@ -27,6 +28,7 @@ class IRouter extends Component {
                 <Route path="/admin/ui/notification" component={Notification}></Route>
                 <Route path="/admin/ui/messages" component={Messages}></Route>
                 <Route path="/admin/ui/tabs" component={Tabs}></Route>
+                <Route path="/admin/ui/gallery" component={Gallery}></Route>
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
