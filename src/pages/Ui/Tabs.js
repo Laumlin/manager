@@ -1,5 +1,5 @@
 import React, { Component } from 'react' 
-import { Card, Button, Icon, Tabs, message } from 'antd'
+import { Card, Icon, Tabs, message } from 'antd'
 import './ui.less'
 const TabPane = Tabs.TabPane
 
@@ -65,7 +65,7 @@ class Tab extends Component {
             <TabPane tab={<span><Icon type='delete' />Tab 3</span>} key='3'>Content of Tab Pane 3</TabPane>
           </Tabs>
         </Card>
-        <Card title='新增和删除页签'>
+        <Card title='新增和删除页签' className='card'>
           <Tabs 
             onChange={this.handleChange}
             activeKey={this.state.activeKey}
