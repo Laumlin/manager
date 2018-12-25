@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Card, Col, Row } from 'antd'
+import { Card, Col, Row, Modal } from 'antd'
+import { hidden } from 'ansi-colors';
 
 class Gallery extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Gallery extends Component {
         style={{marginBottom: 16}}
         cover={<img src={'/gallery/'+item} alt={item} />}
         key={item}
+        onClick={() => this.showMoadl(item)}
         >
         <Card.Meta 
           title='周二珂'
@@ -23,7 +25,20 @@ class Gallery extends Component {
         />
       </Card>
     ))
+
+    this.state = {
+      visible: false,
+      img: ''
+    }
   }
+
+  showMoadl = (item) => {
+    const imgURL = '/gallery/' + item
+    this.setState({
+      visible: true,
+      imgURL
+    })
+  }  
 
   render() {
     return (
@@ -35,6 +50,14 @@ class Gallery extends Component {
           <Col md={6}>{this.imgList[2]}</Col>
           <Col md={6}>{this.imgList[3]}</Col>
         </Row>
+        <Modal
+          style={{width: 500, height: 500, overflow: hidden}}
+          visible={this.state.visible}
+          title='图片'
+          onCancel={() => this.setState({ visible: false })}
+          footer={null}>
+          <img src={this.state.imgURL} style={{width: 476}} alt=''/>
+        </Modal>
       </div>
     )
   }
