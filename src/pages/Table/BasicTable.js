@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import { Card, Table, Modal, message, Button } from 'antd'
 import axios from './../../axios'
+import Utils from './../../utils/utils'
 
 class BasicTable extends Component {
   state = {}
+
+  params = {
+    page: 1
+  }
 
   onRowClick = (record, index) => {
     let selectKey = [index]
@@ -64,11 +69,12 @@ class BasicTable extends Component {
   }
 
   getTableList = () => {
+    let _this = this
     axios.ajax({
       url: '/table/list',
       data: {
         params: {
-          page: 1
+          page: this.params.page
         },
         isShowLoading: true
       }
@@ -78,7 +84,11 @@ class BasicTable extends Component {
         this.setState({
           dataSource2: res.result.list,
           selectedRows: null,
-          selectedRowKeys: []
+          selectedRowKeys: [],
+          pagination: Utils.pagination(res, (current) => {
+            _this.params.page = current
+            this.getTableList()
+          })
         })
       }
     })
@@ -195,6 +205,15 @@ class BasicTable extends Component {
             columns={columns}
             dataSource={this.state.dataSource2}
             pagination={false}
+          >
+          </Table>
+        </Card>
+        <Card title='分页表格' style={{marginTop: 10}}>
+          <Table
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource2}
+            pagination={this.state.pagination}
           >
           </Table>
         </Card>
