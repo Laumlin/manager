@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal } from 'antd'
+import { Card, Table, Modal, message, Button } from 'antd'
 import axios from './../../axios'
 
 class BasicTable extends Component {
@@ -14,6 +14,20 @@ class BasicTable extends Component {
     this.setState({
       selectedRowKeys: selectKey,
       selectedItem: record
+    })
+  }
+
+  handleDelete = () => {
+    let rows = this.state.selectedRows
+    let ids = []
+    rows.map(item => ids.push(item.id))
+    Modal.confirm({
+      title: '删除提示',
+      content: `您确定要删除这些数据吗？${ids.join()}`,
+      onOk: () => {
+        message.success('删除成功！')
+        this.getTableList()
+      }
     })
   }
 
@@ -46,6 +60,10 @@ class BasicTable extends Component {
       dataSource
     })
 
+    this.getTableList()
+  }
+
+  getTableList = () => {
     axios.ajax({
       url: '/table/list',
       data: {
@@ -56,11 +74,11 @@ class BasicTable extends Component {
       }
     }).then(res => {
       if (res.code === 0) {
-        res.result.list.map((item, index) => {
-          item.key = index
-        })
+        res.result.list.map((item, index) => item.key = index)
         this.setState({
-          dataSource2: res.result.list
+          dataSource2: res.result.list,
+          selectedRows: null,
+          selectedRowKeys: []
         })
       }
     })
@@ -119,6 +137,17 @@ class BasicTable extends Component {
       type: 'radio',
       selectedRowKeys
     }
+
+    const rowCheckSelection = {
+      type: 'checkbox',
+      selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRows) => {
+        this.setState({
+          selectedRowKeys,
+          selectedRows
+        })
+      }
+    }
     return (
       <div>
         <Card title='基础表格'>
@@ -150,6 +179,19 @@ class BasicTable extends Component {
                  }
                }
             }}
+            columns={columns}
+            dataSource={this.state.dataSource2}
+            pagination={false}
+          >
+          </Table>
+        </Card>
+        <Card title='Mock-单选' style={{marginTop: 10}}>
+          <div style={{marginBottom: 10}}>
+            <Button onClick={this.handleDelete}>删除</Button>
+          </div>
+          <Table
+            bordered
+            rowSelection={rowCheckSelection}
             columns={columns}
             dataSource={this.state.dataSource2}
             pagination={false}
