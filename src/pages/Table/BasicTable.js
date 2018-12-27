@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
-import { Card, Table } from 'antd'
+import { Card, Table, Modal } from 'antd'
 import axios from './../../axios'
 
 class BasicTable extends Component {
   state = {}
+
+  onRowClick = (record, index) => {
+    let selectKey = [index]
+    Modal.info({
+      title:'信息',
+      content:`用户名：${record.username},用户爱好：${record.interest}`
+    })
+    this.setState({
+      selectedRowKeys: selectKey,
+      selectedItem: record
+    })
+  }
 
   componentDidMount() {
     const dataSource = [
@@ -43,12 +55,14 @@ class BasicTable extends Component {
         isShowLoading: true
       }
     }).then(res => {
-      res.result.list.map((item, index) => {
-        item.key = index
-      })
-      this.setState({
-        dataSource2: res.result.list
-      })
+      if (res.code === 0) {
+        res.result.list.map((item, index) => {
+          item.key = index
+        })
+        this.setState({
+          dataSource2: res.result.list
+        })
+      }
     })
   }
 
@@ -100,6 +114,11 @@ class BasicTable extends Component {
         dataIndex: 'address'
       }
     ]
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys
+    }
     return (
       <div>
         <Card title='基础表格'>
@@ -114,6 +133,23 @@ class BasicTable extends Component {
         <Card title='动态渲染表格-Mock' style={{marginTop: 10}}>
           <Table
             bordered
+            columns={columns}
+            dataSource={this.state.dataSource2}
+            pagination={false}
+          >
+          </Table>
+        </Card>
+        <Card title='Mock-单选' style={{marginTop: 10}}>
+          <Table
+            bordered
+            rowSelection={rowSelection}
+            onRow={(record, index) => {
+               return {
+                 onClick: () => {
+                  this.onRowClick(record, index)
+                 }
+               }
+            }}
             columns={columns}
             dataSource={this.state.dataSource2}
             pagination={false}
