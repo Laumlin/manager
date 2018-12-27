@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Table } from 'antd'
+import axios from './../../axios'
 
 class BasicTable extends Component {
   state = {}
@@ -7,30 +8,43 @@ class BasicTable extends Component {
   componentDidMount() {
     const dataSource = [
       {
-        userName: 'laumlin',
+        username: 'laumlin',
         sex: '1',
         state: '单身',
         interest: '1',
         address: '广州大学城'
       },
       {
-        userName: 'laumlin',
+        username: 'laumlin',
         sex: '1',
         state: '单身',
         interest: '1',
         address: '广州大学城'
       },
       {
-        userName: 'laumlin',
+        username: 'laumlin',
         sex: '1',
         state: '单身',
         interest: '1',
         address: '广州大学城'
       }
     ]
-
+    dataSource.map((item, index) => item.key=index)
     this.setState({
       dataSource
+    })
+
+    axios.ajax({
+      url: '/table/list',
+      data: {
+        params: {
+          page: 1
+        }
+      }
+    }).then(res => {
+      this.setState({
+        dataSource2: res.result.list
+      })
     })
   }
 
@@ -38,7 +52,7 @@ class BasicTable extends Component {
     const columns = [
       {
         title: '用户名',
-        dataIndex: 'userName'
+        dataIndex: 'username'
       },
       {
         title: '性别',
@@ -64,6 +78,15 @@ class BasicTable extends Component {
             bordered
             columns={columns}
             dataSource={this.state.dataSource}
+            pagination={false}
+          >
+          </Table>
+        </Card>
+        <Card title='基础表格' style={{}}>
+          <Table
+            bordered
+            columns={columns}
+            dataSource={this.state.dataSource2}
             pagination={false}
           >
           </Table>
