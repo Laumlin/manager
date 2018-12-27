@@ -195,7 +195,7 @@ class BasicTable extends Component {
           >
           </Table>
         </Card>
-        <Card title='Mock-单选' style={{marginTop: 10}}>
+        <Card title='Mock-多选' style={{marginTop: 10}}>
           <div style={{marginBottom: 10}}>
             <Button onClick={this.handleDelete}>删除</Button>
           </div>
