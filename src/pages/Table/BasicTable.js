@@ -10,21 +10,21 @@ class BasicTable extends Component {
       {
         username: 'laumlin',
         sex: '1',
-        state: '单身',
+        state: '1',
         interest: '1',
         address: '广州大学城'
       },
       {
         username: 'laumlin',
         sex: '1',
-        state: '单身',
+        state: '2',
         interest: '1',
         address: '广州大学城'
       },
       {
         username: 'laumlin',
         sex: '1',
-        state: '单身',
+        state: '4',
         interest: '1',
         address: '广州大学城'
       }
@@ -39,9 +39,13 @@ class BasicTable extends Component {
       data: {
         params: {
           page: 1
-        }
+        },
+        isShowLoading: true
       }
     }).then(res => {
+      res.result.list.map((item, index) => {
+        item.key = index
+      })
       this.setState({
         dataSource2: res.result.list
       })
@@ -56,15 +60,40 @@ class BasicTable extends Component {
       },
       {
         title: '性别',
-        dataIndex: 'sex'
+        dataIndex: 'sex',
+        render(sex) {
+          return sex === 1 ? '男' : '女'
+        }
       },
       {
         title: '状态',
-        dataIndex: 'state'
+        dataIndex: 'state',
+        render(state) {
+          let config = {
+            1: '咸鱼一条',
+            2: '单身',
+            3: '恋爱',
+            4: '分手',
+            5: '自由'
+          }
+          return config[state]
+        }
       },
       {
         title: '爱好',
-        dataIndex: 'interest'
+        dataIndex: 'interest',
+        render(interest) {
+          let config = {
+            1: '游泳',
+            2: '篮球',
+            3: '跑步',
+            4: '爬山',
+            5: '桌球',
+            6: '旅游',
+            7: '钓鱼'
+          } 
+          return config[interest]
+        }
       },
       {
         title: '地址',
@@ -82,7 +111,7 @@ class BasicTable extends Component {
           >
           </Table>
         </Card>
-        <Card title='基础表格' style={{}}>
+        <Card title='动态渲染表格-Mock' style={{marginTop: 10}}>
           <Table
             bordered
             columns={columns}
