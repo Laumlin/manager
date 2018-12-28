@@ -32,6 +32,12 @@ class HighTable extends Component {
     })
   }
 
+  handleChange = (pagination, filters, sorter) => {
+    this.setState({
+      sorterInfo: sorter
+    })
+  }
+
   render() {
     const columns = [
       {
@@ -265,6 +271,60 @@ class HighTable extends Component {
       }
     ]
 
+    const columns3 = [
+      {
+        title: '用户名',
+        dataIndex: 'username'
+      },
+      {
+        title: '性别',
+        dataIndex: 'sex',
+        render(sex) {
+          return sex === 1 ? '男' : '女'
+        }
+      },
+      {
+        title: '年龄',
+        dataIndex: 'age',
+        sorter: (a, b) => {
+          return a.age - b.age
+        }
+      },
+      {
+        title: '状态',
+        dataIndex: 'state',
+        render(state) {
+          let config = {
+            1: '咸鱼一条',
+            2: '单身',
+            3: '恋爱',
+            4: '分手',
+            5: '自由'
+          }
+          return config[state]
+        }
+      },
+      {
+        title: '爱好',
+        dataIndex: 'interest',
+        render(interest) {
+          let config = {
+            1: '游泳',
+            2: '篮球',
+            3: '跑步',
+            4: '爬山',
+            5: '桌球',
+            6: '旅游',
+            7: '钓鱼'
+          } 
+          return config[interest]
+        }
+      },
+      {
+        title: '地址',
+        dataIndex: 'address'
+      }
+    ]
 
     return (
       <div>
@@ -285,6 +345,16 @@ class HighTable extends Component {
             dataSource={this.state.dataSource}
             pagination={false}
             scroll={{x: 2400}}
+          >
+          </Table>
+        </Card>
+        <Card title='表格排序' style={{marginTop: 10}}>
+          <Table
+            bordered
+            columns={columns3}
+            dataSource={this.state.dataSource}
+            pagination={false}
+            onChange={this.handleChange}
           >
           </Table>
         </Card>
