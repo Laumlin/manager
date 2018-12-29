@@ -6,7 +6,9 @@ const FormItem = Form.Item
 const Option = Select.Option
 
 class City extends Component {
-  state = {}
+  state = {
+    isShowOpenCity: false
+  }
 
   params = {
     page: 1
@@ -40,8 +42,31 @@ class City extends Component {
     })
   }
 
+  // 开通城市
   handleOpenCity = () => {
+    this.setState({
+      isShowOpenCity: true
+    })
+  }
 
+  // 城市开通提交
+  handleSubmit = () => {
+    let cityInfo = this.cityForm.props.form.getFieldsValue()
+    console.log(cityInfo)
+    axios.ajax({
+      url: '/city/open',
+      data: {
+        params: cityInfo
+      }
+    }).then(res => {
+      if (res.code === 0) {
+        message.success('开通成功')
+        this.setState({
+          isShowOpenCity: false
+        })
+        this.requireList()
+      }
+    })
   }
 
   render() {
@@ -110,6 +135,17 @@ class City extends Component {
             columns={columns}
             pagination={this.state.pagination}/>
         </div>
+        <Modal 
+          title='城市开通'
+          visible={this.state.isShowOpenCity}
+          onCancel={() => {
+            this.setState({
+              isShowOpenCity: false
+            })
+          }}
+          onOk={this.handleSubmit}>
+          <OpenCityForm wrappedComponentRef={(form) => { this.cityForm = form }} />
+        </Modal>
       </div>
     )
   }
@@ -185,4 +221,60 @@ class FormFilter extends Component {
 
 FormFilter =  Form.create()(FormFilter)
 
+class OpenCityForm extends Component {
+  render() {
+    const formLItemLayout = {
+      labelCol: {
+        span: 5
+      },
+      wrapperCol: {
+        span: 19
+      }
+    }
+    const { getFieldDecorator } = this.props.form
+    return (
+      <Form>
+        <FormItem label='选择城市' {...formLItemLayout}>
+          {
+            getFieldDecorator('city_id', {
+              initialValue: '1'
+            })( 
+              <Select style={{width: 100}}>
+                <Option value=''>全部</Option>
+                <Option value='1'>北京市</Option>
+                <Option value='2'>深圳市</Option>
+              </Select>
+            )
+          }
+        </FormItem>
+        <FormItem label='运营模式' {...formLItemLayout}>
+          {
+            getFieldDecorator('op_mode', {
+              initialValue: '1'
+            })(
+              <Select style={{width: 100}}>
+                <Option value='1'>自营</Option>
+                <Option value='2'>加盟</Option>
+              </Select>
+            )
+          }
+        </FormItem>
+        <FormItem label='用车模式' {...formLItemLayout}>
+          {
+            getFieldDecorator('use_mode', {
+              initialValue: '1'
+            })(
+              <Select style={{width: 120}}>
+                <Option value='1'>指定停车点</Option>
+                <Option value='2'>禁停区</Option>
+              </Select>
+            )
+          }
+        </FormItem>
+      </Form>
+    )
+  }
+}
+
+OpenCityForm = Form.create()(OpenCityForm)
 export default City
