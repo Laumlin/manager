@@ -15,6 +15,7 @@ import FormLogin from './pages/Form/Login'
 import FormRegister from './pages/Form/Register'
 import BasicTable from './pages/Table/BasicTable'
 import HighRable from './pages/Table/HighTable'
+import City from './pages/City'
 import NotMatch from './pages/NotMatch'
 
 
@@ -38,7 +39,8 @@ class IRouter extends Component {
                 <Route path="/admin/form/login" component={FormLogin}></Route>  
                 <Route path="/admin/form/reg" component={FormRegister}></Route>
                 <Route path="/admin/table/basic" component={BasicTable}></Route>  
-                <Route path="/admin/table/high" component={HighRable}></Route>              
+                <Route path="/admin/table/high" component={HighRable}></Route>       
+                <Route path="/admin/city" component={City}></Route>              
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
