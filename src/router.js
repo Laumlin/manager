@@ -19,6 +19,7 @@ import City from './pages/City'
 import Order from './pages/Order'
 import NotMatch from './pages/NotMatch'
 import Common from './common'
+import OrderDetail from './pages/Order/detail'
 
 class IRouter extends Component {
   render() {
@@ -49,7 +50,7 @@ class IRouter extends Component {
           } />
           <Route path='/common' render={() => 
             <Common>
-              <Route path='/common/order/detail/:orderId' component={Login} />
+              <Route path='/common/order/detail/:orderId' component={OrderDetail} />
             </Common>
           } />
         </App>

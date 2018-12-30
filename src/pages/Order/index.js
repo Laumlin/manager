@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, message, Button, Form, Select, Col, TimePicker } from 'antd'
+import { Card, Table, Modal, message, Button, Form, Select, TimePicker } from 'antd'
 import axios from './../../axios'
 import Utils from './../../utils/utils'
 const FormItem = Form.Item
@@ -38,6 +38,27 @@ class Order extends Component {
         })
       }
     })
+  }
+
+  onRowClick = (record, index) => {
+    let selectKey = [index]
+    this.setState({
+      selectedRowKeys: selectKey,
+      selectedItem: record
+    })
+  }
+
+  openOrderDetail = () => {
+    let item = this.state.selectedItem
+    console.log(item)
+    if (!item) {
+      Modal.info({
+        title: '信息',
+        content: '请选择一条订单进行结束'
+      })
+      return
+    }
+    window.open(`/#/common/order/detail/${item.id}`, '_blank')
   }
 
   render() {
@@ -90,13 +111,20 @@ class Order extends Component {
           dataIndex: 'user_pay'
       }
     ]
+
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys
+    }
+
     return (
       <div>
         <Card>
           <FormFilter />
         </Card>
         <Card style={{marginTop: 10}}>
-          <Button type='primary' style={{marginRight: 25}}>订单详情</Button>
+          <Button type='primary' style={{marginRight: 25}} onClick={this.openOrderDetail}>订单详情</Button>
           <Button type='primary'>结束订单</Button>
         </Card>
         <div className='content-wrap'>
@@ -105,6 +133,14 @@ class Order extends Component {
             columns={columns}
             dataSource={this.state.dataSource}
             pagination={this.state.pagination}
+            rowSelection={rowSelection}
+            onRow={(record, index) => {
+              return {
+                onClick: () => {
+                  this.onRowClick(record, index)
+                }
+              }
+            }}
           />
         </div>
       </div>
