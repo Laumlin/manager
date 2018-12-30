@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, message, Button, Form, Select, TimePicker } from 'antd'
+import { Card, Table, Modal, Button, Form, Select, TimePicker } from 'antd'
 import axios from './../../axios'
 import Utils from './../../utils/utils'
 const FormItem = Form.Item
