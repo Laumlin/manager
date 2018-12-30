@@ -37,7 +37,7 @@ class FormRegister extends Component {
   }
 
   handleSubmit = () => {
-    const userInfo = this.props.form.getFieldsValue()
+    // const userInfo = this.props.form.getFieldsValue()
   }
 
   render() {
@@ -206,7 +206,7 @@ class FormRegister extends Component {
             <FormItem {...offsetLayout}>
               {
                 getFieldDecorator('userImg')(
-                  <Checkbox>我已阅读过<a href='#'>xx协议</a></Checkbox>
+                  <Checkbox>我已阅读过<a href='/#'>xx协议</a></Checkbox>
                 )
               }    
             </FormItem>
