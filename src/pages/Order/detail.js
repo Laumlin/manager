@@ -33,12 +33,14 @@ class OrderDetail extends Component {
 
   renderMap = (result) => {
     this.map = new window.BMap.Map('orderDetailMap', {enableMapClick: false})
-    this.map.centerAndZoom('北京',11);  
+    
     this.map.enableScrollWheelZoom(true);
     // 添加地图控件
     this.addMapControl()
     // 调用路线图绘制方法
     this.drawBikeRoute(result.position_list)
+    // 调用服务区绘制方法
+    this.drawServiceArea(result.area)
   }
 
   // 添加地图控件
@@ -86,9 +88,29 @@ class OrderDetail extends Component {
         strokeOpacity: 1
       })
       this.map.addOverlay(polyline)
+
+      this.map.centerAndZoom(endPoint,11);  
     }
   }
 
+  // 绘制服务区
+  drawServiceArea = (positionList) => {
+    let trackPoint = []
+    for (let i=0; i<positionList.length; i++) {
+      let point = positionList[i]
+      trackPoint.push(new window.BMap.Point(point.lon, point.lat))
+    }
+
+    let polygon = new window.BMap.Polygon(trackPoint, {
+      strokeColor: '#CE0000',
+      strokeWeight: 4,
+      strokeOpacity: 1,
+      fillColor: '#ff8605',
+      fillOpacity:0.4
+    })
+
+    this.map.addOverlay(polygon)
+  }
 
   render() {
     const info = this.state.orderInfo || {}
