@@ -23,21 +23,33 @@ class Header extends Component {
       .catch(err => console.log(err))
   }
   render() {
+    const { menuType } = this.props
     return (
       <div className="header">
         <Row className="header-top">
-          <Col span="24">
+          {
+            menuType ? 
+              <Col span="6" className="logo">
+                <img src="/assets/logo.svg" alt="" />
+                <span>通用后台管理系统</span>
+              </Col> 
+              : ""
+          }
+          <Col span={menuType ? 18 : 24}>
             <span>欢迎，laumlin</span>
             <a href="/">退出</a>
           </Col>
         </Row>
-        <Row className="breadcrumb">
-          <Col span="3" className="breadcrumb-title">首页</Col>
-          <Col span="21" className="weather">
-            <span className="date">{this.state.sysTime}</span>
-            <span className="weather-detail">{this.state.wea}</span>
-          </Col>
-        </Row>
+        {
+          menuType ? '' :  
+            <Row className="breadcrumb">
+              <Col span="3" className="breadcrumb-title">首页</Col>
+              <Col span="21" className="weather">
+                <span className="date">{this.state.sysTime}</span>
+                <span className="weather-detail">{this.state.wea}</span>
+              </Col>
+            </Row>
+        }
       </div>
     )
   }
