@@ -36,34 +36,16 @@ class Order extends Component {
   ]
 
   componentDidMount() {
-    this.requireList()
+    this.requestList()
   }
   
-  requireList = () => {
-    let _this = this
-    axios.ajax({
-      url: '/order/list',
-      data: {
-        params: this.params,
-        isShowLoading: true
-      }
-    }).then(res => {
-      if (res.code === 0) {
-        res.result.item_list.map((item, index) => item.key=index)
-        this.setState({
-          dataSource: res.result.item_list,
-          pagination: Utils.pagination(res, (current) => {
-            _this.params.page = current
-            _this.requireList()
-          })
-        })
-      }
-    })
+  requestList = () => {
+    axios.requestList(this, '/order/list', this.params)
   }
 
   handleFilter = (params) => {
     this.params = params
-    this.requireList()
+    this.requestList()
   }
 
   onRowClick = (record, index) => {

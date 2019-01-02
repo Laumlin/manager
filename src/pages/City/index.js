@@ -63,36 +63,16 @@ class City extends Component {
   ]
 
   componentDidMount() {
-    this.requireList()
+    this.requestList()
   }
 
-  requireList = () => {
-    let _this = this
-    axios.ajax({
-      url: '/open_city',
-      data: {
-        params: {
-          page: this.params.page
-        }
-      },
-      isShowLoading: true
-    }).then(res => {
-      if (res.code === 0) {
-        res.result.item_list.map((item, index) => item.key = index)
-        this.setState({
-          dataSource: res.result.item_list,
-          pagination: Utils.pagination(res, (current) => {
-            _this.params.page = current
-            _this.requireList()
-          })
-        })
-      }
-    })
+  requestList = () => {
+    axios.requestList(this, '/open_city', this.params)
   }
 
   handleFilter = (params) => {
     this.params = params
-    this.requireList()
+    this.requestList()
   }
 
   // 开通城市
@@ -117,7 +97,7 @@ class City extends Component {
         this.setState({
           isShowOpenCity: false
         })
-        this.requireList()
+        this.requestList()
       }
     })
   }
