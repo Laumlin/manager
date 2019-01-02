@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, Button, Form, Select, TimePicker } from 'antd'
+import { Card, Table, Modal, Button } from 'antd'
 import axios from './../../axios'
 import Utils from './../../utils/utils'
-const FormItem = Form.Item
-const Option = Select.Option
+import BaseForm from '../../components/BaseForm'
 
 class Order extends Component {
   state = {}
@@ -12,18 +11,40 @@ class Order extends Component {
     page: 1
   }
 
+  formList = [
+    {
+      type: 'SELECT',
+      label: '城市',
+      field: 'city_id',
+      width: 100,
+      placeholder: '全部',
+      initialValue: '0',
+      list: [{id: '0', name: '全部'}, {id: '1', name: '北京市'}, {id: '2', name: '深圳市'}, {id: '3', name: '上海市'},]
+    },
+    {
+      type: '时间查询'
+    },
+    {
+      type: 'SELECT',
+      label: '订单状态',
+      field: 'order_status',
+      width: 100,
+      placeholder: '全部',
+      initialValue: '0',
+      list: [{id: '0', name: '全部'}, {id: '1', name: '进行中'}, {id: '2', name: '进行中（临时停车）'}, {id: '3', name: '已结束'},]
+    }
+  ]
+
   componentDidMount() {
     this.requireList()
   }
-
+  
   requireList = () => {
     let _this = this
     axios.ajax({
       url: '/order/list',
       data: {
-        params: {
-          page: this.params.page
-        },
+        params: this.params,
         isShowLoading: true
       }
     }).then(res => {
@@ -38,6 +59,11 @@ class Order extends Component {
         })
       }
     })
+  }
+
+  handleFilter = (params) => {
+    this.params = params
+    this.requireList()
   }
 
   onRowClick = (record, index) => {
@@ -121,7 +147,7 @@ class Order extends Component {
     return (
       <div>
         <Card>
-          <FormFilter />
+          <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
         </Card>
         <Card style={{marginTop: 10}}>
           <Button type='primary' style={{marginRight: 25}} onClick={this.openOrderDetail}>订单详情</Button>
@@ -147,65 +173,5 @@ class Order extends Component {
     )
   }
 }
-
-class FormFilter extends Component {
-  render() {
-    const { getFieldDecorator } = this.props.form
-    return (
-      <Form layout='inline'>
-        <FormItem label='城市'>
-          {
-            getFieldDecorator('city_id')(
-              <Select 
-                style={{width: 100}}
-                placeholder='全部'
-              >
-                <Option value=''>全部</Option>
-                <Option value='1'>北京市</Option>
-                <Option value='2'>深圳市</Option>
-                <Option value='3'>上海市</Option>
-              </Select>
-            )
-          }
-        </FormItem>
-        <FormItem label='订单时间'>
-          {
-            getFieldDecorator('start_time')(
-              <TimePicker showTime format='YYYY-MM-DD HH:mm:ss' />
-            )
-          }
-        </FormItem>
-        <FormItem>
-          {
-            getFieldDecorator('end_time')(
-              <TimePicker showTime format='YYYY-MM-DD HH:mm:ss' />
-            )
-          }
-        </FormItem>
-        <FormItem label='订单状态'>
-          {
-            getFieldDecorator('status')(
-              <Select 
-                style={{width: 100}}
-                placeholder='全部'
-              >
-                <Option value=''>全部</Option>
-                <Option value='1'>进行中</Option>
-                <Option value='2'>进行中（临时停车）</Option>
-                <Option value='3'>已结束</Option>
-              </Select>
-            )
-          }
-        </FormItem>
-        <FormItem>
-          <Button type='primary' style={{margin: '0 25px'}}>查询</Button>
-          <Button>重置</Button>
-        </FormItem>
-      </Form>
-    )
-  }
-}
-
-FormFilter = Form.create()(FormFilter)
 
 export default Order
