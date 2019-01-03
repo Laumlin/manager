@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, Button } from 'antd'
+import { Card, Table, Modal, Button, message, Form } from 'antd'
 import axios from './../../axios'
-import Utils from './../../utils/utils'
 import BaseForm from '../../components/BaseForm'
+const FormItem = Form.Item
 
 class Order extends Component {
-  state = {}
+  state = {
+    orderInfo: {},
+    orderConfirmVisible: false
+  }
 
   params = {
     page: 1
@@ -48,6 +51,55 @@ class Order extends Component {
     this.requestList()
   }
 
+  // 订单结束确认
+  handleConfirm = () => {
+    let item = this.state.selectedItem
+    if (!item) {
+      Modal.info({
+        title: '信息',
+        content: '请选择一条订单进行结束'
+      })
+      return 
+    }
+    axios.ajax({
+      url: '/order/ebike_info',
+      data: {
+        params: {
+          orderId: item.id
+        },
+        isShowLoading: false
+      }
+    }).then(res => {
+      if (res.code === 0) {
+        this.setState({
+          orderInfo: res.result,
+          orderConfirmVisible: true
+        })
+      }
+    })
+  }
+
+  // 结束订单
+  handleFinishOrder = () => {
+    let item = this.state.selectedItem;
+    axios.ajax({
+      url: '/order/finish_order',
+      data: {
+        params: {
+          orderId: item.id
+        }
+      }
+    }).then(res => {
+      if (res.code === 0) {
+        message.success('订单结束成功')
+        this.setState({
+          orderConfirmVisible: false
+        })
+        this.requestList()
+      }
+    })
+  }
+
   onRowClick = (record, index) => {
     let selectKey = [index]
     this.setState({
@@ -58,7 +110,6 @@ class Order extends Component {
 
   openOrderDetail = () => {
     let item = this.state.selectedItem
-    console.log(item)
     if (!item) {
       Modal.info({
         title: '信息',
@@ -125,6 +176,14 @@ class Order extends Component {
       type: 'radio',
       selectedRowKeys
     }
+    const formItemLayout = {
+      labelCol: {
+        span: 5
+      },
+      wrapperCol: {
+        span: 19
+      }
+    }
 
     return (
       <div>
@@ -133,7 +192,7 @@ class Order extends Component {
         </Card>
         <Card style={{marginTop: 10}}>
           <Button type='primary' style={{marginRight: 25}} onClick={this.openOrderDetail}>订单详情</Button>
-          <Button type='primary'>结束订单</Button>
+          <Button type='primary' onClick={this.handleConfirm}>结束订单</Button>
         </Card>
         <div className='content-wrap'>
           <Table 
@@ -151,6 +210,32 @@ class Order extends Component {
             }}
           />
         </div>
+        <Modal
+          title='结束订单'
+          visible={this.state.orderConfirmVisible}
+          onCancel={() => {
+            this.setState({
+              orderConfirmVisible: false
+            })
+          }}
+          onOk={this.handleFinishOrder}
+          width={600}
+        >
+          <Form>
+            <FormItem label="车辆编号" {...formItemLayout}>
+              {this.state.orderInfo.bike_sn}
+            </FormItem>
+            <FormItem label="剩余电量" {...formItemLayout}>
+              {this.state.orderInfo.battery + '%'}
+            </FormItem>
+            <FormItem label="行程开始时间" {...formItemLayout}>
+              {this.state.orderInfo.start_time}
+            </FormItem>
+            <FormItem label="当前位置" {...formItemLayout}>
+              {this.state.orderInfo.location}
+            </FormItem>
+          </Form>
+        </Modal>
       </div>
     )
   }
