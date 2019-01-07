@@ -24,6 +24,7 @@ export default {
     }
   },
 
+  // <select>选项列表
   getOptionList(data) {
     if (!data) {
       return []
@@ -33,5 +34,25 @@ export default {
       options.push(<Option value={item.id} key={item.id}>{item.name}</Option>)
     })
     return options
+  },
+
+  /*
+    * ETable 行点击通用函数
+    * @param {*选中行的索引} selectedRowKeys
+    * @param {*选中行对象} selectedItem
+    */
+  updateSelectedItem(selectedRowKeys, selectedRows, seletedIds) {
+    if (seletedIds) {
+      this.setState({
+        selectedRowKeys,
+        seletedIds: seletedIds,
+        selectedItem: selectedRows
+      })
+    } else {
+      this.setState({
+        selectedRowKeys,
+        selectedItem: selectedRows
+      })
+    }
   }
 }

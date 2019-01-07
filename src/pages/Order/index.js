@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, Button, message, Form } from 'antd'
+import { Card, Modal, Button, message, Form } from 'antd'
 import axios from './../../axios'
+import utils from '../../utils/utils'
 import BaseForm from '../../components/BaseForm'
+import ETable from '../../components/ETable';
 const FormItem = Form.Item
 
 class Order extends Component {
@@ -171,11 +173,11 @@ class Order extends Component {
       }
     ]
 
-    const selectedRowKeys = this.state.selectedRowKeys;
-    const rowSelection = {
-      type: 'radio',
-      selectedRowKeys
-    }
+    // const selectedRowKeys = this.state.selectedRowKeys;
+    // const rowSelection = {
+    //   type: 'radio',
+    //   selectedRowKeys
+    // }
     const formItemLayout = {
       labelCol: {
         span: 5
@@ -195,7 +197,7 @@ class Order extends Component {
           <Button type='primary' onClick={this.handleConfirm}>结束订单</Button>
         </Card>
         <div className='content-wrap'>
-          <Table 
+          {/* <Table 
             bordered
             columns={columns}
             dataSource={this.state.dataSource}
@@ -208,6 +210,15 @@ class Order extends Component {
                 }
               }
             }}
+          /> */}
+          <ETable 
+            columns={columns}
+            rowSelection='checkbox'
+            dataSource={this.state.dataSource}
+            updateSelectedItem={utils.updateSelectedItem.bind(this)}
+            selectedItem={this.state.selectedItem}
+            selectedRowKeys={this.state.selectedRowKeys}
+            pagination={this.state.pagination}
           />
         </div>
         <Modal
