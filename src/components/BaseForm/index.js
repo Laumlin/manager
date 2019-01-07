@@ -49,7 +49,7 @@ class FilterForm extends Component {
             getFieldDecorator([field], {
               initialValue: initialValue
             })(
-              <Input type='text' placeholder={placeholder}/>
+              <Input type='text' placeholder={placeholder} style={{width: width}} />
             )
           }
           </FormItem>
@@ -84,7 +84,17 @@ class FilterForm extends Component {
           }
           </FormItem>
           formItemList.push(SELECT)
+        } else if (item.type === 'DATE') {
+          const DATE = <FormItem label={label} key={field}>
+          {
+            getFieldDecorator(field)(
+              <DatePicker showTime={true} placeholder={placeholder} format='YYYY-MM-DD HH:mm:ss' />
+            )
+          }
+          </FormItem>
+          formItemList.push(DATE)
         }
+        
       })
     }
     return formItemList
