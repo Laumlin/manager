@@ -79,6 +79,20 @@ class User extends Component {
         title: '编辑员工',
         userInfo: item
       })
+    } else if (type === 'detail') {
+      if (!item) {
+        Modal.info({
+          title: '提示',
+          content: '请选择一个用户'
+        })
+        return 
+      }
+      this.setState({
+        type,
+        isVisible: true,
+        title: '员工详情',
+        userInfo: item
+      })
     }
   }
 
@@ -133,7 +147,7 @@ class User extends Component {
             '3': '踢足球',
             '4': '跑步',
             '5': '爬山',
-           }[state];
+           }[state]
         }
       },
       {
@@ -149,6 +163,13 @@ class User extends Component {
         dataIndex: 'time'
       }
     ]
+
+    let footer = {}
+    if (this.state.type === 'detail') {
+      footer = {
+        footer: null
+      }
+    }
     return (
       <div>
         <Card>
@@ -181,6 +202,7 @@ class User extends Component {
             })
           }}
           width={600}
+          {...footer}
         >
           <UserForm 
             type={this.state.type}
@@ -194,6 +216,21 @@ class User extends Component {
 }
 
 class UserForm extends Component {
+
+  getSex = (sex) => {
+    return sex === 1 ? '男' : '女'
+  }
+
+  getState = (state) => {
+    return {
+      '1': '游泳',
+      '2': '打篮球',
+      '3': '踢足球',
+      '4': '跑步',
+      '5': '爬山',
+     }[state]
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
@@ -204,12 +241,14 @@ class UserForm extends Component {
         span: 19
       }
     }
+    let type = this.props.type
     let userInfo = this.props.userInfo || {}
     return (
       <div>
         <Form>
           <FormItem label='用户名' {...formItemLayout}>
             {
+              type === 'detail' ? userInfo.user_name : 
               getFieldDecorator('user_name', {
                 initialValue: userInfo.user_name
               })(
@@ -219,6 +258,7 @@ class UserForm extends Component {
           </FormItem>
           <FormItem label='性别' {...formItemLayout}>
             {
+              type === 'detail' ? this.getSex(userInfo.sex) : 
               getFieldDecorator('sex', {
                 initialValue: userInfo.sex
               })(
@@ -231,6 +271,7 @@ class UserForm extends Component {
           </FormItem>
           <FormItem label='状态' {...formItemLayout}>
             {
+              type === 'detail' ?  this.getState(userInfo.state) : 
               getFieldDecorator('state', {
                 initialValue: userInfo.state
               })(
@@ -246,6 +287,7 @@ class UserForm extends Component {
           </FormItem>
           <FormItem label='入职时间' {...formItemLayout}>
             {
+              type === 'detail' ? userInfo.user_date :
               getFieldDecorator('user_date', {
                 initialValue: moment(userInfo.user_date)
               })(
@@ -255,6 +297,7 @@ class UserForm extends Component {
           </FormItem>
           <FormItem label='地址' {...formItemLayout}>
             {
+              type === 'detail' ? userInfo.address : 
               getFieldDecorator('address', {
                 initialValue: userInfo.address
               })(
