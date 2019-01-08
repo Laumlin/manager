@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Modal, Form, Input, Radio, DatePicker, Select } from 'antd'
+import { Card, Button, Modal, Form, Input, Radio, DatePicker, Select, Message } from 'antd'
 import axios from '../../axios'
 import utils from '../../utils/utils'
 import ETable from '../../components/ETable'
@@ -93,7 +93,41 @@ class User extends Component {
         title: '员工详情',
         userInfo: item
       })
+    } else {
+      if (!item) {
+        Modal.info({
+          title: '提示',
+          content: '请选择一个用户'
+        })
+        return 
+      }
+      Modal.confirm({
+        title: '确认删除',
+        content: '是否要删除当前选中的员工',
+        onOk: this.handleDelete
+      })
     }
+  }
+
+  // 删除员工确认回调
+  handleDelete = () => {
+    axios.ajax({
+      url: '/user/delete',
+      data: {
+        params: {
+          id: this.state.selectedItem.id
+        }
+      }
+    }).then(res => {
+      if (res.code === 0) {
+        this.setState({
+          isVisible: false,
+          selectedRowKeys: []
+        })
+        Message.success('删除成功')
+        this.requestList()
+      }
+    })
   }
 
   // 创建员工提交
