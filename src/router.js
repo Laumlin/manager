@@ -18,6 +18,7 @@ import HighRable from './pages/Table/HighTable'
 import City from './pages/City'
 import Order from './pages/Order'
 import User from './pages/User'
+import BikeMap from './pages/Map/bikeMap'
 import NotMatch from './pages/NotMatch'
 import Common from './common'
 import OrderDetail from './pages/Order/detail'
@@ -45,7 +46,8 @@ class IRouter extends Component {
                 <Route path="/admin/table/high" component={HighRable}></Route>       
                 <Route path="/admin/city" component={City}></Route>     
                 <Route path="/admin/order" component={Order}></Route>   
-                <Route path="/admin/user" component={User}></Route>         
+                <Route path="/admin/user" component={User}></Route>     
+                <Route path="/admin/bikeMap" component={BikeMap}></Route>   
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
