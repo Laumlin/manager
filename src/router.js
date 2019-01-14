@@ -21,6 +21,7 @@ import User from './pages/User'
 import BikeMap from './pages/Map/bikeMap'
 import Bar from './pages/Echarts/bar'
 import Pie from './pages/Echarts/pie'
+import Line from './pages/Echarts/line'
 import NotMatch from './pages/NotMatch'
 import Common from './common'
 import OrderDetail from './pages/Order/detail'
@@ -52,6 +53,7 @@ class IRouter extends Component {
                 <Route path="/admin/bikeMap" component={BikeMap}></Route>   
                 <Route path='/admin/charts/bar' component={Bar}></Route>
                 <Route path='/admin/charts/pie' component={Pie}></Route>
+                <Route path='/admin/charts/line' component={Line}></Route>
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>
