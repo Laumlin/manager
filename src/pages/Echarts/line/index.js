@@ -75,6 +75,33 @@ class Line extends Component {
     return option
   }
 
+  getOption3 = () => {
+    let option = {
+      title: { 
+        text: '用户骑行订单'
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      series: [
+        {
+          name: '订单量',
+          type: 'line',
+          data: [ 1000, 2000, 1500, 3000, 2000, 1200, 800 ],
+          areaStyle: {}
+        }
+      ]
+    }
+    return option
+  }
 
   render() {
     return (
@@ -84,6 +111,9 @@ class Line extends Component {
         </Card>
         <Card title='折线图标之二' style={{marginTop: 10}}>
           <ReactEcharts option={this.getOption2()} theme='bike' style={{height: 500}} />
+        </Card>
+        <Card title='折线图标之三' style={{marginTop: 10}}>
+          <ReactEcharts option={this.getOption3()} theme='bike' style={{height: 500}} />
         </Card>
       </div>
     )
