@@ -23,10 +23,10 @@ import Bar from './pages/Echarts/bar'
 import Pie from './pages/Echarts/pie'
 import Line from './pages/Echarts/line'
 import RichText from './pages/Rich'
+import Permission from './pages/Permission'
 import NotMatch from './pages/NotMatch'
 import Common from './common'
 import OrderDetail from './pages/Order/detail'
-
 
 class IRouter extends Component {
   render() {
@@ -57,6 +57,7 @@ class IRouter extends Component {
                 <Route path='/admin/charts/pie' component={Pie}></Route>
                 <Route path='/admin/charts/line' component={Line}></Route>
                 <Route path='/admin/rich' component={RichText}></Route>
+                <Route path='/admin/permission' component={Permission}></Route>
                 <Route component={NotMatch}></Route>
               </Switch>
             </Admin>

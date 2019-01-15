@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
+import './index.less'
 
 class ETable extends Component {
 
