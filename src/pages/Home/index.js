@@ -7,7 +7,7 @@ class Home extends Component {
   }
   render() {
     return (
-      <div className="home-wrapper">home</div>
+      <div className="home-wrapper">欢迎来到laumlin的后台管理系统</div>
     )
   }
 }
