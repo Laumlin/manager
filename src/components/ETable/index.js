@@ -8,7 +8,7 @@ class ETable extends Component {
 
   // 处理行点击事件
   onRowClick = (record, index) => {
-    let rowSelection = this.rowSelection
+    let rowSelection = this.props.rowSelection
     if (rowSelection === 'checkbox') {
       let selectedRowKeys = this.props.selectedRowKeys
       let selectedIds = this.props.selectedIds
