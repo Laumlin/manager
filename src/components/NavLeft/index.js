@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import MenuList from '../../config/menuConfig'
 import './index.less'
 import { Menu } from 'antd'
+import { connect } from 'react-redux' 
+import { setMenuName } from './../../store/actionCreator'
 const SubMenu = Menu.SubMenu
-
 
 class NavLeft extends Component {
   constructor() {
@@ -27,7 +28,7 @@ class NavLeft extends Component {
           </SubMenu>
         )
       }
-      return <Menu.Item key={item.key}><Link to={item.key}>{item.title}</Link></Menu.Item>
+      return <Menu.Item title={item.title} key={item.key}><Link to={item.key}>{item.title}</Link></Menu.Item>
     })
   }
   render() {
@@ -38,7 +39,10 @@ class NavLeft extends Component {
             <img src="/assets/logo.svg" alt="" />
             <h1>Imooc MS</h1>
           </div>
-          <Menu theme="dark">
+          <Menu 
+            theme="dark"
+            onClick={this.props.handleClick}
+          >
             {this.state.menuTreeNode}
           </Menu>
         </div>
@@ -47,4 +51,12 @@ class NavLeft extends Component {
   }
 }
 
-export default NavLeft
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleClick({item}) {
+      dispatch(setMenuName(item.props.title))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NavLeft)
