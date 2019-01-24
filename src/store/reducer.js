@@ -1,7 +1,8 @@
 import * as constants from './constants'
 
 const defaultState = {
-  menuName: '首页'
+  menuName: '首页',
+  loginStatus: false
 }
 
 export default (state = defaultState, action) => {
@@ -10,6 +11,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         menuName: action.menuName
+      }
+    case constants.LOGIN_STATUS:
+      return {
+        ...state,
+        loginStatus: action.status
       }
     default:
       return state
