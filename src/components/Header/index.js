@@ -4,6 +4,7 @@ import utils from '../../utils/utils'
 import './index.less'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { setLoginStatus } from '../../store/actionCreator'
 
 class Header extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Header extends Component {
           }
           <Col span={menuType ? 18 : 24}>
             <span>欢迎，laumlin</span>
-            <a href="/">退出</a>
+            <a href="/admin/#/login" onClick={this.props.logout}>退出</a>
           </Col>
         </Row>
         {
@@ -62,4 +63,12 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Header)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout() {
+      dispatch(setLoginStatus(false))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
